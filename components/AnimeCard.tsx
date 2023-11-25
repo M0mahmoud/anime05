@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MotionWrapper } from "./Motion";
 
 export interface AnimeProp {
   id: string;
@@ -17,9 +18,26 @@ interface Props {
   index: number;
 }
 
-const AnimeCard = ({ anime }: Props) => {
+const stagger = 0.2;
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
+const AnimeCard = ({ anime, index }: Props) => {
   return (
-    <div className="max-w-sm rounded relative w-full">
+    <MotionWrapper
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      transition={{
+        delay: index * stagger,
+        ease: "easeInOut",
+        duration: 0.5,
+      }}
+      viewport={{ amount: 0 }}
+      className="max-w-sm rounded relative w-full"
+    >
       {/* TODO: Make IT Link */}
       <div className="relative w-full h-[37vh]">
         <Image
@@ -65,7 +83,7 @@ const AnimeCard = ({ anime }: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </MotionWrapper>
   );
 };
 
